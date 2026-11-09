@@ -1,0 +1,11 @@
+{
+  "name": "gamesscorefsd",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GamesScoreFSD — frontend + Node.js backend",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js"
+  }
+}

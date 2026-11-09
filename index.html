@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>GamesScoreFSD</title>
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body>
+		<header class="topbar">
+			<div class="topbar__brand">GamesScoreFSD</div>
+			<div class="topbar__user" id="topbar-user" hidden></div>
+			<button class="topbar__login" type="button" id="login-btn">Вход</button>
+		</header>
+
+		<main class="page">
+			<section class="panel">
+				<div class="panel__actions admin-only" id="games-admin-actions" hidden>
+					<button class="panel__action" type="button" id="add-game-btn">Добавить игру</button>
+					<button class="panel__action panel__action--danger" type="button" id="clear-games-btn">
+						Очистить
+					</button>
+				</div>
+
+				<div class="panel__body panel__body--stack">
+					<section class="block" aria-labelledby="games-title">
+						<h2 class="block__title" id="games-title">Список игр</h2>
+						<ul class="game-list" id="game-list" aria-label="Список игр"></ul>
+					</section>
+
+					<section class="block" aria-labelledby="players-title">
+						<h2 class="block__title" id="players-title">Список игроков</h2>
+						<div class="stats-wrap">
+							<table class="stats-table stats-table--players" aria-label="Статистика игроков">
+								<thead>
+									<tr>
+										<th scope="col">Игрок</th>
+										<th scope="col">1 место</th>
+										<th scope="col">2 место</th>
+										<th scope="col">Не в призах</th>
+										<th scope="col">Выигрыш</th>
+										<th scope="col">Итог</th>
+									</tr>
+								</thead>
+								<tbody id="stats-body"></tbody>
+							</table>
+						</div>
+					</section>
+
+					<section class="block payouts" aria-labelledby="payouts-title">
+						<div class="payouts__head">
+							<h2 class="block__title" id="payouts-title">Таблица выплат</h2>
+							<button class="btn btn--primary admin-only" type="button" id="edit-payouts-btn" hidden>
+								Редактировать
+							</button>
+						</div>
+						<div class="stats-wrap">
+							<table class="stats-table payouts-table" aria-label="Таблица выплат">
+								<thead>
+									<tr>
+										<th scope="col">Игроков</th>
+										<th scope="col">1 место</th>
+										<th scope="col">2 место</th>
+										<th scope="col">Остальные</th>
+									</tr>
+								</thead>
+								<tbody id="payouts-body"></tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</section>
+		</main>
+
+		<dialog class="modal" id="login-modal" aria-labelledby="login-modal-title">
+			<form class="modal__form" id="login-form" method="dialog">
+				<h2 class="modal__title" id="login-modal-title">Вход</h2>
+
+				<label class="field">
+					<span class="field__label">Логин</span>
+					<input class="field__input" type="text" id="login-name" name="name" required autocomplete="username" />
+				</label>
+
+				<label class="field">
+					<span class="field__label">Пароль</span>
+					<input
+						class="field__input"
+						type="password"
+						id="login-password"
+						name="password"
+						required
+						autocomplete="current-password"
+					/>
+				</label>
+
+				<label class="check check--all" for="login-remember">
+					<input type="checkbox" id="login-remember" name="remember" />
+					<span>Запомнить</span>
+				</label>
+
+				<p class="modal__error" id="login-error" hidden></p>
+
+				<div class="modal__actions">
+					<button class="btn btn--ghost" type="button" id="cancel-login-btn">Отмена</button>
+					<button class="btn btn--primary" type="submit" id="confirm-login-btn">Войти</button>
+				</div>
+			</form>
+		</dialog>
+
+		<dialog class="modal modal--wide" id="payouts-modal" aria-labelledby="payouts-modal-title">
+			<form class="modal__form" id="payouts-form" method="dialog">
+				<h2 class="modal__title" id="payouts-modal-title">Редактировать выплаты</h2>
+
+				<div class="stats-wrap">
+					<table class="stats-table payouts-table payouts-table--edit" aria-label="Редактирование выплат">
+						<thead>
+							<tr>
+								<th scope="col">Игроков</th>
+								<th scope="col">1 место</th>
+								<th scope="col">2 место</th>
+								<th scope="col">Остальные</th>
+							</tr>
+						</thead>
+						<tbody id="payouts-edit-body"></tbody>
+					</table>
+				</div>
+
+				<p class="modal__error" id="payouts-error" hidden></p>
+
+				<div class="modal__actions">
+					<button class="btn btn--ghost" type="button" id="cancel-payouts-btn">Отмена</button>
+					<button class="btn btn--primary" type="submit" id="save-payouts-btn">Сохранить</button>
+				</div>
+			</form>
+		</dialog>
+
+		<dialog class="modal" id="add-game-modal" aria-labelledby="add-game-modal-title">
+			<form class="modal__form" id="add-game-form" method="dialog">
+				<h2 class="modal__title" id="add-game-modal-title">Новая игра</h2>
+				<input type="hidden" id="editing-game-id" value="" />
+
+				<label class="field">
+					<span class="field__label">Дата</span>
+					<input class="field__input" type="date" id="game-date" name="date" required />
+				</label>
+
+				<fieldset class="players-pick">
+					<legend class="field__label">Игроки</legend>
+
+					<label class="check check--all">
+						<input type="checkbox" id="select-all-players" />
+						<span>Выбрать всех</span>
+					</label>
+
+					<ul class="players-pick__list" id="players-check-list"></ul>
+				</fieldset>
+
+				<p class="modal__hint" id="players-count-hint">Выбрано: 0</p>
+
+				<label class="field">
+					<span class="field__label">1 место</span>
+					<select class="field__input" id="place-first" name="place-first" required>
+						<option value="">Выберите игрока</option>
+					</select>
+				</label>
+
+				<label class="field">
+					<span class="field__label">2 место</span>
+					<select class="field__input" id="place-second" name="place-second" required>
+						<option value="">Выберите игрока</option>
+					</select>
+				</label>
+
+				<p class="modal__error" id="add-game-error" hidden></p>
+
+				<div class="modal__actions">
+					<button class="btn btn--ghost" type="button" id="cancel-game-btn" value="cancel">Отмена</button>
+					<button class="btn btn--primary" type="submit" id="confirm-game-btn">Добавить</button>
+				</div>
+			</form>
+		</dialog>
+
+		<script src="js/script.js"></script>
+	</body>
+</html>

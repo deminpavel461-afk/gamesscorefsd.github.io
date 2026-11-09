@@ -1,0 +1,67 @@
+{
+  "players": [
+    "Вова Гаврилюк",
+    "Сан Саныч",
+    "Андрей Русских",
+    "Стас Бушуев",
+    "DedPool",
+    "Паша Шерр",
+    "ZAZUZAZI"
+  ],
+  "admin": {
+    "login": "Володя Гаврилюк",
+    "password": "admin"
+  },
+  "payouts": {
+    "4": {
+      "first": 450,
+      "second": -150,
+      "other": -150
+    },
+    "5": {
+      "first": 450,
+      "second": 0,
+      "other": -150
+    },
+    "6": {
+      "first": 500,
+      "second": 100,
+      "other": -150
+    },
+    "7": {
+      "first": 600,
+      "second": 150,
+      "other": -150
+    }
+  },
+  "games": [
+    {
+      "id": 1,
+      "date": "2026-11-09",
+      "players": [
+        "Вова Гаврилюк",
+        "Сан Саныч",
+        "Андрей Русских",
+        "Стас Бушуев",
+        "DedPool",
+        "Паша Шерр",
+        "ZAZUZAZI"
+      ],
+      "first": "Андрей Русских",
+      "second": "Стас Бушуев"
+    }
+  ],
+  "nextGameId": 2,
+  "sessions": {
+    "5b5547f6fd557b66e01b61c7276c85e299f9bd1391497fac": {
+      "login": "Володя Гаврилюк",
+      "expiresAt": 1796837708622,
+      "remember": true
+    },
+    "a044dfd297aa235a520f284ff7fe0b0542020b5151b1763b": {
+      "login": "Володя Гаврилюк",
+      "expiresAt": 1794288919599,
+      "remember": false
+    }
+  }
+}
